@@ -44,6 +44,16 @@ def buscar_libros(texto: str):
     ]
 
 
+@app.get("/libros/estadisticas")
+def estadisticas():
+    disponibles = len([l for l in libros if l["disponible"]])
+    return {
+        "total": len(libros),
+        "disponibles": disponibles,
+        "prestados": len(libros) - disponibles,
+    }
+
+
 @app.post("/libros", status_code=201, response_model=LibroConId)
 def crear_libro(libro: Libro):
     global proximo_id
